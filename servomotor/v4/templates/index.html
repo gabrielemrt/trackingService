@@ -8,40 +8,24 @@
 <body>
     <h1>Servo Control</h1>
     <form id="controlForm">
-        <label for="angle_x">Angle X (0-180): </label>
-        <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="setAngles()">
-        <span id="angleXValue">90</span>
-        <br>
+        <div>
+            <label for="angle_x">Angle X (0-180): </label>
+            <input type="number" id="angle_x" name="angle_x" min="0" max="180" step="1" placeholder="Enter angle X">
+        </div>
 
-        <label for="angle_y">Angle Y (0-180): </label>
-        <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="setAngles()">
-        <span id="angleYValue">90</span>
-        <br>
+        <div>
+            <label for="angle_y">Angle Y (0-180): </label>
+            <input type="number" id="angle_y" name="angle_y" min="0" max="180" step="1" placeholder="Enter angle Y">
+        </div>
 
-        <input type="button" value="Set Angles" onclick="setAngles()">
+        <button type="button" onclick="sendAngles()">Set Angles</button>
     </form>
 
-    <div>
-        <h2>Move 10°:</h2>
-        <button onclick="move('up')">Up</button>
-        <button onclick="move('down')">Down</button>
-        <button onclick="move('left')">Left</button>
-        <button onclick="move('right')">Right</button>
-    </div>
-
-    <div>
-        <h2>Set Manual Angles:</h2>
-        <input type="number" id="manual_angle_x" placeholder="Enter angle X">
-        <button onclick="setManualAngle('x')">Set Angle X</button>
-        <br>
-        <input type="number" id="manual_angle_y" placeholder="Enter angle Y">
-        <button onclick="setManualAngle('y')">Set Angle Y</button>
-    </div>
-
     <script>
-        function setAngles() {
+        function sendAngles() {
             var angleX = document.getElementById("angle_x").value;
             var angleY = document.getElementById("angle_y").value;
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/control", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -55,53 +39,6 @@
                 }
             };
         }
-
-        function move(direction) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/move_10", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("direction=" + direction);
-
-            xhr.onload = function () {
-                if (xhr.status == 200) {
-                    console.log("Servo moved successfully");
-                    setAngles();  // Aggiorna i valori dopo il movimento
-                } else {
-                    console.error("Failed to move servo");
-                }
-            };
-        }
-
-        function setManualAngle(axis) {
-            var manualAngle;
-            if (axis === 'x') {
-                manualAngle = document.getElementById("manual_angle_x").value;
-            } else if (axis === 'y') {
-                manualAngle = document.getElementById("manual_angle_y").value;
-            }
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/control", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("angle_x=" + manualAngle + "&angle_y=" + manualAngle);
-
-            xhr.onload = function () {
-                if (xhr.status == 200) {
-                    console.log("Manual angle set successfully");
-                    setAngles();  // Aggiorna i valori dopo il movimento
-                } else {
-                    console.error("Failed to set manual angle");
-                }
-            };
-        }
-
-        document.getElementById("angle_x").addEventListener("input", function () {
-            document.getElementById("angleXValue").innerText = this.value;
-        });
-
-        document.getElementById("angle_y").addEventListener("input", function () {
-            document.getElementById("angleYValue").innerText = this.value;
-        });
     </script>
 </body>
 </html>
