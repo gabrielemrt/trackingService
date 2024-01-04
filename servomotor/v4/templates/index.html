@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Servo Control</h1>
-    
+
     <!-- Form per l'inserimento manuale degli angoli -->
     <form id="manualControlForm">
         <div>
@@ -26,15 +26,13 @@
     <!-- Form per il controllo degli angoli tramite slider -->
     <form id="sliderControlForm">
         <label for="angle_x">Angle X (0-180): </label>
-        <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_x', 'angleXValue')">
+        <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_x', 'angleXValue'); sendSliderAngles()">
         <span id="angleXValue">90</span>
         <br>
 
         <label for="angle_y">Angle Y (0-180): </label>
-        <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_y', 'angleYValue')">
+        <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_y', 'angleYValue'); sendSliderAngles()">
         <span id="angleYValue">90</span>
-        <br>
-
     </form>
 
     <script>
