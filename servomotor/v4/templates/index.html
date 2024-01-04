@@ -7,36 +7,52 @@
 </head>
 <body>
     <h1>Servo Control</h1>
-    <form id="controlForm">
+    
+    <!-- Form per l'inserimento manuale degli angoli -->
+    <form id="manualControlForm">
         <div>
-            <label for="angle_x">Angle X (0-180): </label>
-            <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_x', 'angleXValue')">
-            <input type="number" id="angle_x_input" name="angle_x_input" min="0" max="180" step="1" placeholder="Enter angle X">
+            <label for="manual_angle_x">Angle X (0-180): </label>
+            <input type="number" id="manual_angle_x" name="manual_angle_x" min="0" max="180" step="1" placeholder="Enter angle X">
         </div>
 
         <div>
-            <label for="angle_y">Angle Y (0-180): </label>
-            <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_y', 'angleYValue')">
-            <input type="number" id="angle_y_input" name="angle_y_input" min="0" max="180" step="1" placeholder="Enter angle Y">
+            <label for="manual_angle_y">Angle Y (0-180): </label>
+            <input type="number" id="manual_angle_y" name="manual_angle_y" min="0" max="180" step="1" placeholder="Enter angle Y">
         </div>
 
-        <button type="button" onclick="sendAngles()">Set Angles</button>
+        <button type="button" onclick="sendManualAngles()">Set Manual Angles</button>
+    </form>
+
+    <!-- Form per il controllo degli angoli tramite slider -->
+    <form id="sliderControlForm">
+        <label for="angle_x">Angle X (0-180): </label>
+        <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_x', 'angleXValue')">
+        <span id="angleXValue">90</span>
+        <br>
+
+        <label for="angle_y">Angle Y (0-180): </label>
+        <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_y', 'angleYValue')">
+        <span id="angleYValue">90</span>
+        <br>
+
     </form>
 
     <script>
-        function updateSlider(sliderId, displayId) {
-            // Aggiorna il valore dello slider
-            var sliderValue = document.getElementById(sliderId).value;
-            document.getElementById(displayId).innerText = sliderValue;
+        function sendManualAngles() {
+            var angleX = document.getElementById("manual_angle_x").value;
+            var angleY = document.getElementById("manual_angle_y").value;
 
-            // Aggiorna il campo di input numerico
-            document.getElementById(sliderId + '_input').value = sliderValue;
+            sendAngles(angleX, angleY);
         }
 
-        function sendAngles() {
-            var angleX = document.getElementById("angle_x_input").value;
-            var angleY = document.getElementById("angle_y_input").value;
+        function sendSliderAngles() {
+            var angleX = document.getElementById("angle_x").value;
+            var angleY = document.getElementById("angle_y").value;
 
+            sendAngles(angleX, angleY);
+        }
+
+        function sendAngles(angleX, angleY) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/control", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -51,14 +67,11 @@
             };
         }
 
-        // Aggiorna lo slider e il campo di input numerico quando si immette manualmente un valore
-        document.getElementById("angle_x_input").addEventListener("input", function () {
-            updateSlider('angle_x', 'angleXValue');
-        });
-
-        document.getElementById("angle_y_input").addEventListener("input", function () {
-            updateSlider('angle_y', 'angleYValue');
-        });
+        function updateSlider(sliderId, displayId) {
+            // Aggiorna il valore dello slider
+            var sliderValue = document.getElementById(sliderId).value;
+            document.getElementById(displayId).innerText = sliderValue;
+        }
     </script>
 </body>
 </html>
