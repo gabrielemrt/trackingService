@@ -53,8 +53,7 @@
             };
         }
 
-        
- function move(direction) {
+        function move(direction) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/move_10", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -66,6 +65,23 @@
                     setAngles();  // Aggiorna i valori dopo il movimento
                 } else {
                     console.error("Failed to move servo");
+                }
+            };
+        }
+
+        function setManualAngle() {
+            var manualAngle = document.getElementById("manual_angle").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/control", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("angle_x=" + manualAngle + "&angle_y=" + manualAngle);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    console.log("Manual angle set successfully");
+                    setAngles();  // Aggiorna i valori dopo il movimento
+                } else {
+                    console.error("Failed to set manual angle");
                 }
             };
         }
