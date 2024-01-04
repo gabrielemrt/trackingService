@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servo Control</title>
+</head>
+<body>
+    <h1>Servo Control</h1>
+    <form id="controlForm">
+        <label for="angle_x">Angle X (0-180): </label>
+        <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="setAngles()">
+        <span id="angleXValue">90</span>
+        <br>
+
+        <label for="angle_y">Angle Y (0-180): </label>
+        <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="setAngles()">
+        <span id="angleYValue">90</span>
+        <br>
+
+        <input type="button" value="Set Angles" onclick="setAngles()">
+    </form>
+
+    <script>
+        function setAngles() {
+            var angleX = document.getElementById("angle_x").value;
+            var angleY = document.getElementById("angle_y").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/control", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("angle_x=" + angleX + "&angle_y=" + angleY);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    console.log("Servo angles set successfully");
+                } else {
+                    console.error("Failed to set servo angles");
+                }
+            };
+        }
+
+        document.getElementById("angle_x").addEventListener("input", function () {
+            document.getElementById("angleXValue").innerText = this.value;
+        });
+
+        document.getElementById("angle_y").addEventListener("input", function () {
+            document.getElementById("angleYValue").innerText = this.value;
+        });
+    </script>
+</body>
+</html>
