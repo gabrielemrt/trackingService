@@ -9,40 +9,33 @@
     <h1>Servo Control</h1>
     <form id="controlForm">
         <div>
-            <label for="slider_x">Slider X (0-180): </label>
-            <input type="range" id="slider_x" name="slider_x" min="0" max="180" step="1" value="90" oninput="updateInput('angle_x', this.value)">
-            <input type="number" id="angle_x" name="angle_x" min="0" max="180" step="1" placeholder="Enter angle X" oninput="updateSlider('slider_x', this.value)">
+            <label for="angle_x">Angle X (0-180): </label>
+            <input type="range" id="angle_x" name="angle_x" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_x', 'angleXValue')">
+            <input type="number" id="angle_x_input" name="angle_x_input" min="0" max="180" step="1" placeholder="Enter angle X">
         </div>
 
         <div>
-            <label for="slider_y">Slider Y (0-180): </label>
-            <input type="range" id="slider_y" name="slider_y" min="0" max="180" step="1" value="90" oninput="updateInput('angle_y', this.value)">
-            <input type="number" id="angle_y" name="angle_y" min="0" max="180" step="1" placeholder="Enter angle Y" oninput="updateSlider('slider_y', this.value)">
+            <label for="angle_y">Angle Y (0-180): </label>
+            <input type="range" id="angle_y" name="angle_y" min="0" max="180" step="1" value="90" oninput="updateSlider('angle_y', 'angleYValue')">
+            <input type="number" id="angle_y_input" name="angle_y_input" min="0" max="180" step="1" placeholder="Enter angle Y">
         </div>
 
-        <!-- Non è più necessario il pulsante di invio -->
+        <button type="button" onclick="sendAngles()">Set Angles</button>
     </form>
 
     <script>
-        function updateInput(inputId, value) {
-            // Aggiorna il campo di input numerico corrispondente allo slider
-            document.getElementById(inputId).value = value;
+        function updateSlider(sliderId, displayId) {
+            // Aggiorna il valore dello slider
+            var sliderValue = document.getElementById(sliderId).value;
+            document.getElementById(displayId).innerText = sliderValue;
 
-            // Invia immediatamente il valore al server (senza pulsante d'invio)
-            sendAngles();
-        }
-
-        function updateSlider(sliderId, value) {
-            // Aggiorna lo slider corrispondente al campo di input numerico
-            document.getElementById(sliderId).value = value;
-
-            // Invia immediatamente il valore al server (senza pulsante d'invio)
-            sendAngles();
+            // Aggiorna il campo di input numerico
+            document.getElementById(sliderId + '_input').value = sliderValue;
         }
 
         function sendAngles() {
-            var angleX = document.getElementById("angle_x").value;
-            var angleY = document.getElementById("angle_y").value;
+            var angleX = document.getElementById("angle_x_input").value;
+            var angleY = document.getElementById("angle_y_input").value;
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/control", true);
@@ -57,6 +50,15 @@
                 }
             };
         }
+
+        // Aggiorna lo slider e il campo di input numerico quando si immette manualmente un valore
+        document.getElementById("angle_x_input").addEventListener("input", function () {
+            updateSlider('angle_x', 'angleXValue');
+        });
+
+        document.getElementById("angle_y_input").addEventListener("input", function () {
+            updateSlider('angle_y', 'angleYValue');
+        });
     </script>
 </body>
 </html>
