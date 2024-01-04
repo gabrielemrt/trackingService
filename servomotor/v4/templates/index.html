@@ -29,6 +29,12 @@
         <button onclick="move('right')">Right</button>
     </div>
 
+    <div>
+        <h2>Set Manual Angle:</h2>
+        <input type="number" id="manual_angle" placeholder="Enter angle">
+        <button onclick="setManualAngle()">Set Angle</button>
+    </div>
+
     <script>
         function setAngles() {
             var angleX = document.getElementById("angle_x").value;
@@ -48,28 +54,4 @@
         }
 
         function move(direction) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/move_10", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("direction=" + direction);
-
-            xhr.onload = function () {
-                if (xhr.status == 200) {
-                    console.log("Servo moved successfully");
-                    setAngles();  // Aggiorna i valori dopo il movimento
-                } else {
-                    console.error("Failed to move servo");
-                }
-            };
-        }
-
-        document.getElementById("angle_x").addEventListener("input", function () {
-            document.getElementById("angleXValue").innerText = this.value;
-        });
-
-        document.getElementById("angle_y").addEventListener("input", function () {
-            document.getElementById("angleYValue").innerText = this.value;
-        });
-    </script>
-</body>
-</html>
+           
