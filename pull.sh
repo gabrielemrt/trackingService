@@ -5,4 +5,4 @@ git fetch
 git pull
 
 
-echo "* * * * * bash home/$(whoami)/trackingService/pull.sh"
+echo "* * * * * bash /home/$(whoami)/trackingService/pull.sh"
