@@ -30,9 +30,12 @@
     </div>
 
     <div>
-        <h2>Set Manual Angle:</h2>
-        <input type="number" id="manual_angle" placeholder="Enter angle">
-        <button onclick="setManualAngle()">Set Angle</button>
+        <h2>Set Manual Angles:</h2>
+        <input type="number" id="manual_angle_x" placeholder="Enter angle X">
+        <button onclick="setManualAngle('x')">Set Angle X</button>
+        <br>
+        <input type="number" id="manual_angle_y" placeholder="Enter angle Y">
+        <button onclick="setManualAngle('y')">Set Angle Y</button>
     </div>
 
     <script>
@@ -69,8 +72,14 @@
             };
         }
 
-        function setManualAngle() {
-            var manualAngle = document.getElementById("manual_angle").value;
+        function setManualAngle(axis) {
+            var manualAngle;
+            if (axis === 'x') {
+                manualAngle = document.getElementById("manual_angle_x").value;
+            } else if (axis === 'y') {
+                manualAngle = document.getElementById("manual_angle_y").value;
+            }
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/control", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
