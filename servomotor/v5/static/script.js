@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const posY = deltaY / joystickRadius;
 
       handle.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-      lastPosition = { x: posX, y: posY };
       updateAxisValues(posX, posY);
 
       // Mappa l'intervallo -1 a 1 nel range 0 a 180
