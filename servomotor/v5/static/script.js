@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
       updateAxisValues(posX, posY);
 
       // Mappa l'intervallo -1 a 1 nel range 0 a 180
-      const mappedX = map(posX, -180, 180, 0, 180);
-      const mappedY = map(posY, -180, 180, 0, 180);
+      const mappedX = map(posX, -1, 1, 0, 180);
+      const mappedY = map(posY, -1, 1, 0, 180);
 
       // Invia le coordinate al server Flask
       sendCoordinates(mappedX, mappedY);

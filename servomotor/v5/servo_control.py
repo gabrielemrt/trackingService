@@ -35,7 +35,7 @@ def move_servos():
 
     for angle_x in range(int(start_angle_x), int(end_angle_x), 1 if start_angle_x < end_angle_x else -1):
         duty_cycle_x = angle_x / 18.0 + 2.5
-        pwm_x.ChangeDutyCycle(duty_cycle_x, 180)
+        pwm_x.ChangeDutyCycle(duty_cycle_x, 100)
         time.sleep(transition_time / abs(end_angle_x - start_angle_x))
 
     pwm_x.ChangeDutyCycle(0)
@@ -48,7 +48,7 @@ def move_servos():
     for angle_y in range(int(start_angle_y), int(end_angle_y), 1 if start_angle_y < end_angle_y else -1):
         duty_cycle_y = angle_y / 18.0 + 2.5
         # Assicurati che il valore di duty_cycle_y sia nel range corretto
-        duty_cycle_y = max(0, min(duty_cycle_y, 180))
+        duty_cycle_y = max(0, min(duty_cycle_y, 100))
         pwm_y.ChangeDutyCycle(duty_cycle_y)
         time.sleep(transition_time / abs(end_angle_y - start_angle_y))
 
