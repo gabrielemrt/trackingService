@@ -33,28 +33,38 @@ def move_servos():
     start_angle_x = current_angle_x
     end_angle_x = target_angle_x
 
-    for angle_x in range(int(start_angle_x), int(end_angle_x), 1 if start_angle_x < end_angle_x else -1):
-        #duty_cycle_x = angle_x / 18.0 + 2.5
-        duty_cycle_x = max(0, min(duty_cycle_y, 100))
-        pwm_x.ChangeDutyCycle(duty_cycle_x)
-        time.sleep(transition_time / abs(end_angle_x - start_angle_x))
-
-    pwm_x.ChangeDutyCycle(0)
-    current_angle_x = target_angle_x
-
-    # Ripeti lo stesso processo per l'asse Y
     start_angle_y = current_angle_y
     end_angle_y = target_angle_y
 
-    for angle_y in range(int(start_angle_y), int(end_angle_y), 1 if start_angle_y < end_angle_y else -1):
-        duty_cycle_y = angle_y / 18.0 + 2.5
-        # Assicurati che il valore di duty_cycle_y sia nel range corretto
-        duty_cycle_y = max(0, min(duty_cycle_y, 100))
-        pwm_y.ChangeDutyCycle(duty_cycle_y)
-        time.sleep(transition_time / abs(end_angle_y - start_angle_y))
+    steps = 100  # Numero di passaggi per la transizione
+    delay = transition_time / steps
 
-    pwm_y.ChangeDutyCycle(0)
+    for step in range(steps + 1):
+        # Calcola l'angolazione corrente in base al passo della transizione
+        current_angle_x = start_angle_x + (end_angle_x - start_angle_x) * step / steps
+        current_angle_y = start_angle_y + (end_angle_y - start_angle_y) * step / steps
+
+        # Calcola i cicli di lavoro per i servo motori
+        duty_cycle_x = current_angle_x / 18.0 + 2.5
+        duty_cycle_y = current_angle_y / 18.0 + 2.5
+
+        # Assicurati che i valori di duty cycle siano nel range corretto
+        duty_cycle_x = max(0, min(duty_cycle_x, 100))
+        duty_cycle_y = max(0, min(duty_cycle_y, 100))
+
+        # Imposta i cicli di lavoro sui servo motori
+        pwm_x.ChangeDutyCycle(duty_cycle_x)
+        pwm_y.ChangeDutyCycle(duty_cycle_y)
+
+        time.sleep(delay)
+
+    # Fai in modo che l'angolazione attuale corrisponda all'angolazione finale
+    current_angle_x = target_angle_x
     current_angle_y = target_angle_y
+
+    # Arresta i servo motori
+    pwm_x.ChangeDutyCycle(0)
+    pwm_y.ChangeDutyCycle(0)
 
 
 # Pagina principale
