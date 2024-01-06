@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Joystick Example</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Servo Control Joystick</title>
 </head>
-
 <body>
   <div class="joystick-container">
     <div id="joystick" class="joystick">
@@ -17,6 +16,6 @@
       <span id="axis-y">Y: 0</span>
     </div>
   </div>
-  <script src="script.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
