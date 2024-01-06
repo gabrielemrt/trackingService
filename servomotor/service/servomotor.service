@@ -1,0 +1,14 @@
+[Unit]
+Description=Servizio di controllo servo
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/gabriele/trackingService/servomotor/v4/servo_control.py
+WorkingDirectory=/home/gabriele/trackingService/servomotor/v4/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

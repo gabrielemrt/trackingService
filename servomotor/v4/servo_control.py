@@ -52,7 +52,9 @@ def move_servos():
 
     pwm_y.ChangeDutyCycle(0)
     current_angle_y = target_angle_y
-
+    
+    time.sleep(2000)
+    
 # Pagina principale
 @app.route('/')
 def index():
