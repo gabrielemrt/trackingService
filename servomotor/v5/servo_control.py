@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 import threading
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 
 # Imposta la porta GPIO per il servo motore sull'asse X
 servo_x_pin = 18
