@@ -52,9 +52,11 @@ def move_servos():
         duty_cycle_x = max(0, min(duty_cycle_x, 100))
         duty_cycle_y = max(0, min(duty_cycle_y, 100))
 
-        # Imposta i cicli di lavoro sui servo motori
-        pwm_x.ChangeDutyCycle(duty_cycle_x)
-        pwm_y.ChangeDutyCycle(duty_cycle_y)
+        # Imposta i cicli di lavoro sui servo motori solo se sono validi
+        if 0 <= duty_cycle_x <= 100:
+            pwm_x.ChangeDutyCycle(duty_cycle_x)
+        if 0 <= duty_cycle_y <= 100:
+            pwm_y.ChangeDutyCycle(duty_cycle_y)
 
         time.sleep(delay)
 
@@ -65,6 +67,7 @@ def move_servos():
     # Arresta i servo motori
     pwm_x.ChangeDutyCycle(0)
     pwm_y.ChangeDutyCycle(0)
+
 
 
 # Pagina principale
