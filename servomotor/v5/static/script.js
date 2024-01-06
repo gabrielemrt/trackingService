@@ -66,6 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function sendCoordinates(x, y) {
+    // Memorizza l'ultima posizione del joystick
+    lastPosition = { x, y };
+
     // Invia le coordinate al server Flask tramite una richiesta AJAX
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/control', true);
