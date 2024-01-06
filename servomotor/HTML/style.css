@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .joystick-container {
+    position: relative;
+  }
+  
+  .joystick {
+    height: 300px;
+    width: 300px;
+    background-color: #80d5ff;
+    border-radius: 50%;
+
+    cursor: all-scroll;
+    user-select: none;
+    z-index: -100;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+  }
+  
+  .joystick-handle {
+    width: 100px;
+    height: 100px;
+    background-color: darkblue;
+    border-radius: 50%;
+    position: absolute;
+  }
+  
+  .axis-values {
+    margin-top: 20px;
+    text-align: center;
+  }

@@ -1,5 +1,11 @@
 #!/bin/bash
 
-sudo apt-get install feh
+sudo apt update
+sudo apt install snapd -y
 
-feh ./image.jpg
+sudo snap install core
+
+sudo snap install imgcat
+
+
+imgcat ./image.jpg

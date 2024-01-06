@@ -63,8 +63,9 @@ def index():
 def control():
     global target_angle_x, target_angle_y, movement_lock
 
-    angle_x = int(request.form['angle_x'])
-    angle_y = int(request.form['angle_y'])
+    data = request.json
+    angle_x = int(data['angle_x'])
+    angle_y = int(data['angle_y'])
 
     with movement_lock:
         target_angle_x = angle_x
