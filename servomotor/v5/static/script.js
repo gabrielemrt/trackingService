@@ -45,8 +45,12 @@ document.addEventListener('DOMContentLoaded', function () {
       handle.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
       updateAxisValues(posX, posY);
 
+      // Mappa l'intervallo -1 a 1 nel range 0 a 180
+      const mappedX = map(posX, -1, 1, 0, 180);
+      const mappedY = map(posY, -1, 1, 0, 180);
+
       // Invia le coordinate al server Flask
-      sendCoordinates(posX, posY);
+      sendCoordinates(mappedX, mappedY);
     }
   }
 
@@ -66,6 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/control', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(`angle_x=${Math.round(x * 180)}&angle_y=${Math.round(y * 180)}`);
+    xhr.send(`angle_x=${Math.round(x)}&angle_y=${Math.round(y)}`);
+  }
+
+  // Funzione di mappatura per convertire un valore da un intervallo all'altro
+  function map(value, in_min, in_max, out_min, out_max) {
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
 });
