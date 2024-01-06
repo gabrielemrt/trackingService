@@ -1,6 +1,9 @@
 #!/bin/bash
 
+#git clone https://github.com/gabrielemrt/trackingService.git
+
 sudo apt-get install figlet -y
+sudo apt-get install vim -y
 
 figlet "UPDATE & UPGRADE"
 sudo apt update 
