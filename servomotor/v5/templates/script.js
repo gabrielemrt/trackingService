@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function stopDragging() {
     isDragging = false;
-    handle.style.transition = '0.3s ease-out";
+    handle.style.transition = '0.3s ease-out';
     resetHandle();
   }
 
