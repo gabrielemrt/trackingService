@@ -43,16 +43,17 @@ document.addEventListener('DOMContentLoaded', function () {
       const posY = deltaY / joystickRadius;
 
       handle.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-      lastPosition = { x: posX, y: posY };
       updateAxisValues(posX, posY);
-      sendJoystickCoordinates(posX, posY);
+
+      // Invia le coordinate al server Flask
+      sendCoordinates(posX, posY);
     }
   }
 
   function resetHandle() {
     handle.style.transform = 'translate(0, 0)';
     updateAxisValues(lastPosition.x, lastPosition.y);
-    sendJoystickCoordinates(lastPosition.x, lastPosition.y);
+    sendCoordinates(lastPosition.x, lastPosition.y);
   }
 
   function updateAxisValues(x, y) {
@@ -60,13 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
     axisYElement.textContent = `Y: ${Math.round(y * 180)}`;
   }
 
-  function sendJoystickCoordinates(x, y) {
-    fetch('/control', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ angle_x: Math.round(x * 180), angle_y: Math.round(y * 180) }),
-    });
+  function sendCoordinates(x, y) {
+    // Invia le coordinate al server Flask tramite una richiesta AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/control', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(`angle_x=${Math.round(x * 180)}&angle_y=${Math.round(y * 180)}`);
   }
 });

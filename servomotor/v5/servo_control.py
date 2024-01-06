@@ -63,37 +63,9 @@ def index():
 def control():
     global target_angle_x, target_angle_y, movement_lock
 
-    data = request.json
-    angle_x = int(data['angle_x'])
-    angle_y = int(data['angle_y'])
+    angle_x = int(request.form['angle_x'])
+    angle_y = int(request.form['angle_y'])
 
     with movement_lock:
         target_angle_x = angle_x
-        target_angle_y = angle_y
-        threading.Thread(target=move_servos).start()
-
-    return "OK"
-
-# API per il movimento di 10° negli assi X e Y
-@app.route('/move_10', methods=['POST'])
-def move_10():
-    global target_angle_x, target_angle_y, movement_lock
-
-    direction = request.form['direction']
-
-    with movement_lock:
-        if direction == 'up':
-            target_angle_y += 10
-        elif direction == 'down':
-            target_angle_y -= 10
-        elif direction == 'left':
-            target_angle_x -= 10
-        elif direction == 'right':
-            target_angle_x += 10
-
-        threading.Thread(target=move_servos).start()
-
-    return "OK"
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+        target
