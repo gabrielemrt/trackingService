@@ -28,3 +28,10 @@ echo "static routers=192.168.2.2" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=192.168.2.2 8.8.8.8" >> /etc/dhcpcd.conf
 
 
+figlet "CREATION SWAP FILE"
+sudo fallocate -l 4G /swapfile2
+sudo chmod 600 /swapfile2
+sudo mkswap /swapfile2
+sudo swapon /swapfile2
+echo '/swapfile2 none swap sw 0 0' | sudo tee -a /etc/fstab
+sudo swapon --show
