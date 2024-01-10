@@ -4,7 +4,6 @@ import os
 from datetime import datetime
 import socket
 
-
 app = Flask(__name__)
 
 # Percorso per le immagini catturate
@@ -18,16 +17,15 @@ def generate_frames():
         success, frame = cap.read()
         if not success:
             break
-        else:
-            
-            # Ruota il frame di 90 gradi a sinistra
-            frame = cv2.transpose(frame)
-            frame = cv2.flip(frame, 180)
-            
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+        # Ruota il frame di 90 gradi a sinistra
+        frame = cv2.transpose(frame)
+        frame = cv2.flip(frame, 180)
+
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
 def index():
@@ -40,13 +38,12 @@ def video_feed():
 @app.route('/capture', methods=['POST'])
 def capture():
     if request.method == 'POST':
-        now = datetime.now()
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        filename = f'/cam/capture/{socket.gethostname()}-{timestamp}.jpg'
+        filename = f'{socket.gethostname()}-{timestamp}.jpg'
         filepath = os.path.join(capture_path, filename)
 
         # Crea la directory se non esiste
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
     
         success, frame = cap.read()
         if success:
