@@ -41,10 +41,13 @@ def video_feed():
 def capture():
     if request.method == 'POST':
         now = datetime.now()
-        timestamp = now.strftime("%Y-%m-%d-%H-%M")
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         filename = f'/cam/capture/{socket.gethostname()}-{timestamp}.jpg'
         filepath = os.path.join(capture_path, filename)
 
+        # Crea la directory se non esiste
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+    
         success, frame = cap.read()
         if success:
             cv2.imwrite(filepath, frame)
