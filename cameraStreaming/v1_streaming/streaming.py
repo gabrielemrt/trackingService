@@ -42,7 +42,7 @@ def generate_frames():
         else:
             # Ruota il frame di 90 gradi a sinistra
             frame = cv2.transpose(frame)
-            frame = cv2.flip(frame, 0)
+            frame = cv2.flip(frame, 180)
             
             if tracking_enabled:
                 track_person(frame)
