@@ -9,26 +9,23 @@
 <body>
     <h1>Raspberry Pi Surveillance Control</h1>
 
-    <button id="startTracking">Start Tracking</button>
-    <button id="stopTracking">Stop Tracking</button>
-
     <div>
         <img src="{{ url_for('video_feed') }}" width="640" height="480">
     </div>
 
     <script>
         $(document).ready(function() {
-            $('#startTracking').click(function() {
-                $.get('/control/start', function(response) {
-                    console.log(response);
-                });
+            // Aggiungi il controllo remoto per attivare/disattivare il tracking
+            $.get('/control/start', function(response) {
+                console.log(response);
             });
 
-            $('#stopTracking').click(function() {
-                $.get('/control/stop', function(response) {
-                    console.log(response);
-                });
-            });
+            // Controlla automaticamente il tracking all'avvio
+            setInterval(function() {
+                $('#videoFeed').attr('src', '{{ url_for('video_feed') }}?' + new Date().getTime());
+            }, 1000);
+
+            // Non sono più necessari i pulsanti Start/Stop
         });
     </script>
 </body>

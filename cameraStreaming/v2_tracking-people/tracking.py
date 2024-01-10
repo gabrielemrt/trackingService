@@ -52,7 +52,8 @@ def generate_frames():
 # Route principale per la pagina web
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', tracking_enabled=tracking_enabled)
+
 
 # Route per il controllo del tracking
 @app.route('/control/<action>')
