@@ -1,8 +1,6 @@
-import os
-import socket
-from datetime import datetime
-import cv2
 from flask import Flask, render_template, Response
+import cv2
+import threading
 
 app = Flask(__name__)
 
