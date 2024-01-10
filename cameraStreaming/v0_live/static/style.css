@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.video-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+#live-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+form {
+    text-align: center;
+    margin-top: 10px;
+}
