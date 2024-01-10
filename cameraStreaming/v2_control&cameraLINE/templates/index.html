@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Surveillance Control</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>Raspberry Pi Surveillance Control</h1>
+
+    <div>
+        <label for="xPosition">X-Axis Position:</label>
+        <input type="range" id="xPosition" name="xPosition" min="0" max="180" value="90">
+    </div>
+
+    <div>
+        <label for="yPosition">Y-Axis Position:</label>
+        <input type="range" id="yPosition" name="yPosition" min="0" max="180" value="90">
+    </div>
+
+    <button id="updatePositions">Update Positions</button>
+
+    <div>
+        <img id="videoFeed" width="640" height="480">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var videoFeed = document.getElementById('videoFeed');
+
+            $('#updatePositions').click(function() {
+                var xPosition = $('#xPosition').val();
+                var yPosition = $('#yPosition').val();
+
+                $.post('/control', {x_position: xPosition, y_position: yPosition}, function(response) {
+                    console.log(response);
+                });
+            });
+
+            // Aggiorna continuamente l'immagine dalla telecamera
+            function updateVideoFeed() {
+                videoFeed.src = '/video_feed?' + new Date().getTime();
+                setTimeout(updateVideoFeed, 1000);  // Aggiorna ogni secondo
+            }
+
+            updateVideoFeed();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Surveillance Control</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>Raspberry Pi Surveillance Control</h1>
+
+    <button id="startTracking">Start Tracking</button>
+    <button id="stopTracking">Stop Tracking</button>
+
+    <div>
+        <img src="{{ url_for('video_feed') }}" width="640" height="480">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#startTracking').click(function() {
+                $.get('/control/start', function(response) {
+                    console.log(response);
+                });
+            });
+
+            $('#stopTracking').click(function() {
+                $.get('/control/stop', function(response) {
+                    console.log(response);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
