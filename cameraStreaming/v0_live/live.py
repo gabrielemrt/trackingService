@@ -42,7 +42,7 @@ def capture():
     if request.method == 'POST':
         now = datetime.now()
         timestamp = now.strftime("%Y-%m-%d-%H-%M")
-        filename = f"{socket.gethostname()}-{timestamp}.jpg"
+        filename = f'/cam/photos/{socket.gethostname()}-{timestamp}.jpg'
         filepath = os.path.join(capture_path, filename)
 
         success, frame = cap.read()
