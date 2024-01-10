@@ -4,6 +4,8 @@ import os
 from datetime import datetime
 import socket
 
+from flask_socketio import SocketIO
+
 app = Flask(__name__)
 
 # Percorso per le immagini catturate
@@ -17,15 +19,16 @@ def generate_frames():
         success, frame = cap.read()
         if not success:
             break
+        else:
+            # Ruota il frame di 90 gradi a sinistra
+            frame = cv2.transpose(frame)
+            frame = cv2.flip(frame, 180)
 
-        # Ruota il frame di 90 gradi a sinistra
-        frame = cv2.transpose(frame)
-        frame = cv2.flip(frame, 180)
-
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            socketio.emit('frame', {'image': frame})
+            #yield (b'--frame\r\n'
+            #   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
 def index():
