@@ -4,7 +4,10 @@ import os
 from datetime import datetime
 import socket
 
+from flask_socketio import SocketIO
+
 app = Flask(__name__)
+socketio = SocketIO(app)  # Dichiarazione della variabile socketio
 
 # Percorso per le immagini catturate
 capture_path = "/cam/capture"
@@ -24,8 +27,9 @@ def generate_frames():
 
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            socketio.emit('frame', {'image': frame})
+            #yield (b'--frame\r\n'
+            #   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
 def index():
@@ -53,4 +57,4 @@ def capture():
             return "Errore durante la cattura e il salvataggio dell'immagine."
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000)
