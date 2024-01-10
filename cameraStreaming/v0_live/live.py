@@ -2,6 +2,8 @@ from flask import Flask, render_template, Response, request
 import cv2
 import os
 from datetime import datetime
+import socket
+
 
 app = Flask(__name__)
 
