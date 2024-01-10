@@ -21,11 +21,13 @@ def track_person(frame):
     # Rileva persone nell'immagine
     rects, weights = hog.detectMultiScale(frame, winStride=(8, 8), padding=(4, 4), scale=1.05)
 
+    # Salva l'intera immagine quando una persona viene rilevata
+    if len(rects) > 0:
+        save_snapshot(frame)
+
     # Se vengono rilevate persone, prendi la posizione della prima persona
     if len(rects) > 0:
         tracked_person_rect = tuple(rects[0])
-        # Salva un'immagine istantanea con un nome specifico
-        save_snapshot(frame)
 
     # Disegna il rettangolo verde intorno alla persona rilevata
     if tracking_enabled:
