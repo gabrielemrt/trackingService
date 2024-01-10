@@ -19,6 +19,11 @@ def generate_frames():
         if not success:
             break
         else:
+            
+            # Ruota il frame di 90 gradi a sinistra
+            frame = cv2.transpose(frame)
+            frame = cv2.flip(frame, 180)
+            
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
