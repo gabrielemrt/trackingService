@@ -1,6 +1,8 @@
-from flask import Flask, render_template, Response
+import os
+import socket
+from datetime import datetime
 import cv2
-import threading
+from flask import Flask, render_template, Response
 
 app = Flask(__name__)
 
@@ -37,12 +39,29 @@ def generate_frames():
         if not success:
             break
         else:
-            # Applica le ottimizzazioni
-            frame = optimize_frame(frame)
-            
             # Ruota il frame di 90 gradi a sinistra
             frame = cv2.transpose(frame)
             frame = cv2.flip(frame, 180)
+            
+            if tracking_enabled:
+                track_person(frame)
+
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+# Funzione per catturare il flusso video dalla telecamera
+def generate_frames():
+    camera = cv2.VideoCapture(0)  # Puoi regolare il parametro a seconda della tua telecamera
+
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            # Applica le ottimizzazioni
+            frame = optimize_frame(frame)
 
             if tracking_enabled:
                 track_person(frame)
@@ -58,7 +77,6 @@ def optimize_frame(frame):
     # Riduci la risoluzione del frame
     frame = cv2.resize(frame, (640, 480))
     return frame
-
 
 # Route principale per la pagina web
 @app.route('/')
